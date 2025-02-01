@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Bot Form</title>
+</head>
+<body>
+    <h2>Select a Course</h2>
+    <form id="courseForm">
+        <label for="course">Choose a course:</label>
+        <select id="course" name="course">
+            <option value="1">Web Development</option>
+            <option value="2">Data Science</option>
+            <option value="3">File</option>
+            <option value="4">Link</option>
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById("courseForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevents page reload
+
+            let course = document.getElementById("course").value;
+            console.log("User selected course:", course);
+
+                // Send selection to server (Node.js backend)
+                fetch('/select-course', {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ course: course })
+                })
+                .then(response => response.json())
+                .then(data => alert(data.message)) // Show success message
+                .catch(error => console.error("Error:", error));
+        });
+    </script>
+</body>
+</html>
